@@ -33,6 +33,7 @@ New-AzSshKey -Name $sshKeyName -ResourceGroupName $resourceGroupName -PublicKey 
 # and set same zone you would set on the VM, but this is not required in this task. 
 # New-AzPublicIpAddress -Name $publicIpAddressName -ResourceGroupName $resourceGroupName -Location $location -Sku Basic -AllocationMethod Dynamic -DomainNameLabel "random32987"
 
+$pwd = Read-Host -AsSecureString "Enter password for VM yurii"
 foreach ($i in 1..2) {
     New-AzVm `
         -ResourceGroupName $resourceGroupName `
@@ -45,5 +46,5 @@ foreach ($i in 1..2) {
         -SecurityGroupName $networkSecurityGroupName `
         -SshKeyName $sshKeyName `
         -Zone "$i" `
-        -Credential (New-Object System.Management.Automation.PSCredential("yurii",(ConvertTo-SecureString "1" -AsPlainText -Force)))
+        -Credential (New-Object System.Management.Automation.PSCredential("yurii", $pwd))
 }
